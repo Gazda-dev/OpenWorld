@@ -24,6 +24,15 @@ protected:
     float TimeConstant = 5.f;
 
 	virtual void BeginPlay() override;
+
+    UFUNCTION(BlueprintPure)
+    float TransformedSin();
+
+    UFUNCTION(BlueprintPure)
+    float TransformedCos();
+
+    template<typename T>
+    T Avg(T First, T Second);
 private:
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Sine Params", meta = (AllowPrivateAccess = "true"))
@@ -31,3 +40,11 @@ private:
 	
 
 };
+
+template<typename T>
+inline T AItem::Avg(T First, T Second)
+{
+    return (First + Second)/2;
+}
+
+
