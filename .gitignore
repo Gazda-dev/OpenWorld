@@ -3569,3 +3569,10 @@ Content/SlashOpenWorld.umap
 OpenWorldGame.code-workspace
 OpenWorldGame.uproject
 Platforms/HoloLens/Config/HoloLensEngine.ini
+OpenWorldGameEditor.target
+UnrealEditor-OpenWorldGame.pdb
+UnrealEditor.modules
+Content/__ExternalActors__/Maps/MainOpenWorld/5/LJ/E2NZ3H0LFO6LM0EMHBC52F.uasset
+Content/__ExternalObjects__/Maps/MainOpenWorld/2/S3/HBVXH8J52ONZN7TGCTG0M0.uasset
+Content/__ExternalObjects__/Maps/MainOpenWorld/6/HD/VXM5WPGHMT08VCSO5PUMXZ.uasset
+Content/__ExternalObjects__/Maps/MainOpenWorld/B/I5/U9W58HS34Z7GJTQCCN3U10.uasset
