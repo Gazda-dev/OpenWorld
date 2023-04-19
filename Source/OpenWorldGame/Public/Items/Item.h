@@ -17,10 +17,17 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sine Params")
+    float Amplitude = 0.25f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sine Params")
+    float TimeConstant = 5.f;
 
 	virtual void BeginPlay() override;
-
-
+private:
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Sine Params", meta = (AllowPrivateAccess = "true"))
+    float RunningTime;
 	
 
 };

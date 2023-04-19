@@ -2,10 +2,8 @@
 
 
 #include "Items/Item.h"
-#include "DrawDebugHelpers.h"
+#include "OpenWorldGame/DebugMacros.h"
 #include "OpenWorldGame/OpenWorldGame.h"
-
-#define THIRTY 30
 
 
 AItem::AItem()
@@ -18,33 +16,17 @@ AItem::AItem()
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UE_LOG(LogTemp, Warning, TEXT("Begin Play"));
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(0, 30.f, FColor::Cyan, FString("GEngine"));
-	}
-
-	UWorld* World = GetWorld();
-	FVector Location = GetActorLocation();
-	DRAW_SPHERE(Location);
-	
-
 }
 
 void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UE_LOG(LogTemp, Warning, TEXT("DeltaTime: %f"), DeltaTime);
-	
-	if (GEngine)
-	{
-		FString Message = FString::Printf(TEXT("DeltaTime: %f"), DeltaTime);
-		FString Name = GetName();
-		GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Cyan, Message);
-		GEngine->AddOnScreenDebugMessage(2, 30.f, FColor::Cyan, *Name);
-
-	}
+    RunningTime += DeltaTime;
+    float DeltaZ = Amplitude * FMath::Sin(RunningTime * TimeConstant);
+    AddActorWorldOffset(FVector(0.f, 0.f, DeltaZ));
+    
+    DRAW_SPHERE_SINGLEFRAME(GetActorLocation());
+    DRAW_VECTOR_SINGLEFRAME(GetActorLocation(), GetActorLocation() + GetActorForwardVector() * 100.f);
 }
 
