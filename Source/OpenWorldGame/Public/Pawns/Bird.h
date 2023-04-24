@@ -11,6 +11,8 @@ class UCapsuleComponent;
 class USkeletalMeshComponent;
 class UInputMappingContext;
 class UInputAction;
+class USpringArmComponent;
+class UCameraComponent;
 
 UCLASS()
 class OPENWORLDGAME_API ABird : public APawn
@@ -29,10 +31,10 @@ protected:
 	virtual void BeginPlay() override;
     void MoveForward(float Value);
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input_cpp")
     UInputMappingContext* BirdMappingContext;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input_cpp")
     UInputAction* MoveAction;
 
     void Move(const FInputActionValue& Value);
@@ -44,7 +46,11 @@ private:
     UPROPERTY(VisibleAnywhere)
     USkeletalMeshComponent* BirdMesh;
 
-
+    UPROPERTY(VisibleAnywhere)
+    USpringArmComponent* SpringArm;
+    
+    UPROPERTY(VisibleAnywhere)
+    UCameraComponent* ViewCamera;
 
 
 
