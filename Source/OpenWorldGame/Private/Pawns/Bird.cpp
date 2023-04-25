@@ -51,6 +51,16 @@ void ABird::MoveForward(float Value)
     UE_LOG(LogTemp, Warning, TEXT("Value: %f"), Value);
 }
 
+void ABird::Look(const FInputActionValue& Value)
+{
+    const FVector2D LookAxisValue = Value.Get<FVector2D>();
+    if (GetController())
+    {
+        AddControllerPitchInput(LookAxisValue.Y);
+        AddControllerYawInput(LookAxisValue.X);
+    }
+}
+
 void ABird::Move(const FInputActionValue& Value)
 {
     const float DirectionValue = Value.Get<float>();
@@ -77,6 +87,7 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
     if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
     {
         EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ABird::Move);
+        EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ABird::Look);
     }
 
 }
