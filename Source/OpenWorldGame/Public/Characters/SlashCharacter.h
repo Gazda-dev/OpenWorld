@@ -33,7 +33,11 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Input_cpp")
     UInputAction* MovementAction;
 
+    UPROPERTY(EditAnywhere, Category = "Input_cpp")
+    UInputAction* LookingAction;
+
     void Move(const FInputActionValue& Value);
+    void Looking(const FInputActionValue& Value);
 
 
 
