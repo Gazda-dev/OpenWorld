@@ -4,12 +4,24 @@
 #include "Components/InputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 ASlashCharacter::ASlashCharacter()
 {
  	
 	PrimaryActorTick.bCanEverTick = true;
+
+    GetCharacterMovement()->bOrientRotationToMovement = true;
+
+    SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring arm"));
+    SpringArm->SetupAttachment(GetRootComponent());
+    SpringArm->TargetArmLength = 300.f;
+
+    ViewCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("View camera"));
+    ViewCamera->SetupAttachment(SpringArm);
 
 }
 
@@ -29,11 +41,18 @@ void ASlashCharacter::BeginPlay()
 
 void ASlashCharacter::Move(const FInputActionValue& Value)
 {
+    //if (ActionState != EActionState::EAS_Unoccupied) return;
+
     const FVector2D MovementVector = Value.Get<FVector2D>();
-    const FVector Forward = GetActorForwardVector();
-    AddMovementInput(Forward, MovementVector.Y);
-    const FVector Right = GetActorRightVector();
-    AddMovementInput(Right, MovementVector.X);
+
+    const FRotator Rotation = Controller->GetControlRotation();
+    const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
+
+    const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+    AddMovementInput(ForwardDirection, MovementVector.Y);
+
+    const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+    AddMovementInput(RightDirection, MovementVector.X);
 }
 
 void ASlashCharacter::Looking(const FInputActionValue& Value)

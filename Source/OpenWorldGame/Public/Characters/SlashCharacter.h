@@ -9,6 +9,8 @@
 
 class UInputAction;
 class UInputMappingContext;
+class USpringArmComponent;
+class UCameraComponent;
 
 UCLASS()
 class OPENWORLDGAME_API ASlashCharacter : public ACharacter
@@ -39,6 +41,10 @@ protected:
     void Move(const FInputActionValue& Value);
     void Looking(const FInputActionValue& Value);
 
+private:
+    UPROPERTY(VisibleAnywhere)
+    UCameraComponent* ViewCamera;
 
-
+    UPROPERTY(VisibleAnywhere)
+    USpringArmComponent* SpringArm;
 };
