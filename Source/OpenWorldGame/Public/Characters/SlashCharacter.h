@@ -4,7 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "InputActionValue.h"
 #include "SlashCharacter.generated.h"
+
+class UInputAction;
+class UInputMappingContext;
 
 UCLASS()
 class OPENWORLDGAME_API ASlashCharacter : public ACharacter
@@ -22,6 +26,14 @@ public:
 protected:
 	
 	virtual void BeginPlay() override;
+
+    UPROPERTY(EditAnywhere, Category = "Input_cpp")
+    UInputMappingContext* MovementMapping;
+
+    UPROPERTY(EditAnywhere, Category = "Input_cpp")
+    UInputAction* MovementAction;
+
+    void Move(const FInputActionValue& Value);
 
 
 
