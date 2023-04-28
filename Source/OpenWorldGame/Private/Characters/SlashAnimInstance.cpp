@@ -4,6 +4,7 @@
 #include "Characters/SlashAnimInstance.h"
 #include "Characters/SlashCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 void USlashAnimInstance::NativeInitializeAnimation()
 {
@@ -19,4 +20,10 @@ void USlashAnimInstance::NativeInitializeAnimation()
 void USlashAnimInstance::NativeUpdateAnimation(float DeltaTime)
 {
     Super::NativeUpdateAnimation(DeltaTime);
+
+    if (SlashCharacterMovement)
+    {
+        GroundSpeed = UKismetMathLibrary::VSizeXY(SlashCharacterMovement->Velocity);
+        isFalling = SlashCharacterMovement->IsFalling();
+    }
 }
