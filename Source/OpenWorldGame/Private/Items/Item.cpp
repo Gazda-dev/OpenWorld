@@ -4,6 +4,7 @@
 #include "Items/Item.h"
 #include "OpenWorldGame/DebugMacros.h"
 #include "OpenWorldGame/OpenWorldGame.h"
+#include "Components/SphereComponent.h"
 
 
 AItem::AItem()
@@ -13,14 +14,16 @@ AItem::AItem()
 
     ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMeshComponent"));
     RootComponent = ItemMesh;
+
+    Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
+    Sphere->SetupAttachment(GetRootComponent());
 }
 
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
 
-    int32 AvgInt = Avg<int32>(1, 3);
-    UE_LOG(LogTemp, Warning, TEXT("Avg 1 and 3: %d"), AvgInt);
+    Sphere->OnComponentBeginOverlap.AddDynamic(this, &AItem::OnSphereOverlap);
 }
 
 void AItem::Tick(float DeltaTime)
@@ -39,6 +42,16 @@ float AItem::TransformedSin()
 float AItem::TransformedCos()
 {
     return Amplitude * FMath::Cos(RunningTime * TimeConstant);
+}
+
+void AItem::OnSphereOverlap(UPrimitiveComponent OnComponentBeginOverlap, UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
+                            UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    const FString OtherActorName = OtherActor->GetName();
+    if (GEngine)
+    {
+        GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Red, OtherActorName);
+    }
 }
 
 
