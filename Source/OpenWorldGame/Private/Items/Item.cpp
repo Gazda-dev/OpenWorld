@@ -57,9 +57,10 @@ void AItem::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 
 void AItem::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+    FString DebugMessage = FString("Ending overlap with: ") + OtherActor->GetName();
     if (GEngine)
     {
-        GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Green, TEXT("End overlapping"));
+        GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Green, DebugMessage);
     }
 }
 
