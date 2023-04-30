@@ -13,6 +13,7 @@ class UInputMappingContext;
 class USpringArmComponent;
 class UCameraComponent;
 class AItem;
+class UAnimMontage;
 
 UCLASS()
 class OPENWORLDGAME_API ASlashCharacter : public ACharacter
@@ -48,9 +49,17 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Input_cpp")
     UInputAction* E_Action;
 
+    UPROPERTY(EditAnywhere, Category = "Input_cpp")
+    UInputAction* AttackAction;
+
+    UPROPERTY(EditAnywhere, Category = "Input_cpp")
+    UInputAction* DodgeAction;
+
     void Move(const FInputActionValue& Value);
     void Looking(const FInputActionValue& Value);
     void EKeyPressed();
+    void Attack();
+    void Dodge();
 
 private:
 
@@ -64,6 +73,12 @@ private:
 
     UPROPERTY(VisibleInstanceOnly)
     AItem* OverlappingItem;
+
+    /*
+    * Animation montages
+    */
+    UPROPERTY(EditDefaultsOnly, Category = Montages_cpp)
+    UAnimMontage* AttackMontage;
 
 public:
 

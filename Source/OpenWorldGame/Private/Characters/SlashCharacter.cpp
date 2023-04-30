@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Items/Item.h"
 #include "Items/Weapons/Weapon.h"
+#include "Animation/AnimMontage.h"
 
 
 ASlashCharacter::ASlashCharacter()
@@ -74,6 +75,39 @@ void ASlashCharacter::EKeyPressed()
     }
 }
 
+void ASlashCharacter::Attack()
+{
+    UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+    if (AnimInstance && AttackMontage)
+    {
+        AnimInstance->Montage_Play(AttackMontage);
+        int32 Selection = FMath::RandRange(0, 2);
+        FName SectionName = FName();
+        switch (Selection)
+        {
+        case 0:
+            SectionName = FName("Attack1");
+            break;
+
+        case 1:
+            SectionName = FName("Attack2");
+            break;
+        
+        case 2:
+            SectionName = FName("Attack3");
+            break;
+
+        default:
+            break;
+        }
+        AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
+    }
+}
+
+void ASlashCharacter::Dodge()
+{
+}
+
 
 void ASlashCharacter::Tick(float DeltaTime)
 {
@@ -92,6 +126,8 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
         EnhancedInputComponent->BindAction(LookingAction, ETriggerEvent::Triggered, this, &ASlashCharacter::Looking);
         EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ASlashCharacter::Jump);
         EnhancedInputComponent->BindAction(E_Action, ETriggerEvent::Triggered, this, &ASlashCharacter::EKeyPressed);
+        EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ASlashCharacter::Attack);
+        EnhancedInputComponent->BindAction(DodgeAction, ETriggerEvent::Triggered, this, &ASlashCharacter::Dodge);
     }
 
 }
