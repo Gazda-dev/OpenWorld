@@ -69,7 +69,8 @@ void ASlashCharacter::EKeyPressed()
     AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappingItem);
     if (OverlappingWeapon)
     {
-
+        OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"));
+        CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
     }
 }
 
@@ -90,6 +91,7 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
         EnhancedInputComponent->BindAction(MovementAction, ETriggerEvent::Triggered, this, &ASlashCharacter::Move);
         EnhancedInputComponent->BindAction(LookingAction, ETriggerEvent::Triggered, this, &ASlashCharacter::Looking);
         EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ASlashCharacter::Jump);
+        EnhancedInputComponent->BindAction(E_Action, ETriggerEvent::Triggered, this, &ASlashCharacter::EKeyPressed);
     }
 
 }

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "CharacterTypes.h"
 #include "SlashCharacter.generated.h"
 
 class UInputAction;
@@ -44,11 +45,17 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Input_cpp")
     UInputAction* JumpAction;
 
+    UPROPERTY(EditAnywhere, Category = "Input_cpp")
+    UInputAction* E_Action;
+
     void Move(const FInputActionValue& Value);
     void Looking(const FInputActionValue& Value);
     void EKeyPressed();
 
 private:
+
+    ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
+
     UPROPERTY(VisibleAnywhere)
     UCameraComponent* ViewCamera;
 
@@ -59,5 +66,7 @@ private:
     AItem* OverlappingItem;
 
 public:
+
     FORCEINLINE void SetOverlappingItem(AItem* Item) { OverlappingItem = Item; }
+    FORCEINLINE ECharacterState GetCharacterState() const { return CharacterState; }
 };

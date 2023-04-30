@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "CharacterTypes.h"
 #include "SlashAnimInstance.generated.h"
 
 /**
@@ -21,12 +22,15 @@ public:
     UPROPERTY(BlueprintReadOnly)
     class ASlashCharacter* SlashCharacter;
     
-    UPROPERTY(BlueprintReadOnly, Category = "Movement_anim_cpp")
+    UPROPERTY(BlueprintReadOnly, Category = Movement_anim_cpp)
     class UCharacterMovementComponent* SlashCharacterMovement;
     
-    UPROPERTY(BlueprintReadOnly, Category = "Movement_anim_cpp")
+    UPROPERTY(BlueprintReadOnly, Category = Movement_anim_cpp)
     float GroundSpeed;
 
-    UPROPERTY(BlueprintReadOnly, Category = "Movement_anim_cpp")
+    UPROPERTY(BlueprintReadOnly, Category = Movement_anim_cpp)
     bool isFalling;
+
+    UPROPERTY(BlueprintReadonly, Category = "Movement_anim_cpp | Character State")
+    ECharacterState CharacterState;
 };
