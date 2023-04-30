@@ -45,6 +45,7 @@ protected:
 
     void Move(const FInputActionValue& Value);
     void Looking(const FInputActionValue& Value);
+    void EKeyPressed();
 
 private:
     UPROPERTY(VisibleAnywhere)
@@ -52,4 +53,10 @@ private:
 
     UPROPERTY(VisibleAnywhere)
     USpringArmComponent* SpringArm;
+
+    UPROPERTY(VisibleInstanceOnly)
+    AItem* OverlappingItem;
+
+public:
+    FORCEINLINE void SetOverlappingItem(AItem* Item) { OverlappingItem = Item; }
 };

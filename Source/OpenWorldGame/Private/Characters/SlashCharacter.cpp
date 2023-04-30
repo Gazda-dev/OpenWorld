@@ -7,6 +7,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Items/Item.h"
+#include "Items/Weapons/Weapon.h"
 
 
 ASlashCharacter::ASlashCharacter()
@@ -60,6 +62,15 @@ void ASlashCharacter::Looking(const FInputActionValue& Value)
     const FVector2D LookingVector = Value.Get<FVector2D>();
     AddControllerYawInput(LookingVector.X);
     AddControllerPitchInput(LookingVector.Y);
+}
+
+void ASlashCharacter::EKeyPressed()
+{
+    AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappingItem);
+    if (OverlappingWeapon)
+    {
+
+    }
 }
 
 
