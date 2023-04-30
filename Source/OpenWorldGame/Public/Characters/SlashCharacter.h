@@ -11,6 +11,7 @@ class UInputAction;
 class UInputMappingContext;
 class USpringArmComponent;
 class UCameraComponent;
+class AItem;
 
 UCLASS()
 class OPENWORLDGAME_API ASlashCharacter : public ACharacter
