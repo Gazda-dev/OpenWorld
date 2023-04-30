@@ -55,15 +55,26 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Input_cpp")
     UInputAction* DodgeAction;
 
+    /*
+    * Callbacks for input
+    */
+
     void Move(const FInputActionValue& Value);
     void Looking(const FInputActionValue& Value);
     void EKeyPressed();
     void Attack();
     void Dodge();
 
+    /*
+    * Play montage functions
+    */
+
+    void PlayAttackMontage();
+
 private:
 
     ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
+    EActionState ActionState = EActionState::EAS_Unoccpied;
 
     UPROPERTY(VisibleAnywhere)
     UCameraComponent* ViewCamera;
@@ -77,6 +88,7 @@ private:
     /*
     * Animation montages
     */
+
     UPROPERTY(EditDefaultsOnly, Category = Montages_cpp)
     UAnimMontage* AttackMontage;
 
