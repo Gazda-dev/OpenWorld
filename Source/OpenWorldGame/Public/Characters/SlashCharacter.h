@@ -14,6 +14,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class AItem;
 class UAnimMontage;
+class AWeapon;
 
 UCLASS()
 class OPENWORLDGAME_API ASlashCharacter : public ACharacter
@@ -75,6 +76,19 @@ protected:
     void AttackEnd();
     bool CanAttack();
 
+    bool CanDisarm();
+    bool CanArm();
+    void PlayEquipMontage(FName SectionName);
+
+    UFUNCTION(BlueprintCallable)
+    void DisArm();
+
+    UFUNCTION(BlueprintCallable)
+    void Arm();
+
+    UFUNCTION(BlueprintCallable)
+    void FinishEquipping();
+
 private:
 
     ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
@@ -91,12 +105,18 @@ private:
     UPROPERTY(VisibleInstanceOnly)
     AItem* OverlappingItem;
 
+    UPROPERTY(VisibleAnywhere, Category = Weapon_cpp)
+    AWeapon* EquippedWeapon;
+
     /*
     * Animation montages
     */
 
     UPROPERTY(EditDefaultsOnly, Category = Montages_cpp)
     UAnimMontage* AttackMontage;
+
+    UPROPERTY(EditDefaultsOnly, Category = Montages_cpp)
+    UAnimMontage* EquipMontage;
 
 public:
 

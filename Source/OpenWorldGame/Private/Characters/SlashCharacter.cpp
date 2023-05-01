@@ -44,7 +44,7 @@ void ASlashCharacter::BeginPlay()
 
 void ASlashCharacter::Move(const FInputActionValue& Value)
 {
-    if (ActionState == EActionState::EAS_Attacking) return;
+    if (ActionState != EActionState::EAS_Unoccpied) return;
 
     const FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -72,6 +72,23 @@ void ASlashCharacter::EKeyPressed()
     {
         OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"));
         CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
+        OverlappingItem = nullptr;
+        EquippedWeapon = OverlappingWeapon;
+    }
+    else
+    {
+        if (CanDisarm())
+        {
+            PlayEquipMontage(FName("Unequip"));
+            CharacterState = ECharacterState::ECS_Unequipped;
+            ActionState = EActionState::EAS_EquippingWeapon;
+        }
+        else if (CanArm())
+        {
+            PlayEquipMontage(FName("Equip"));
+            CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
+            ActionState = EActionState::EAS_EquippingWeapon;
+        }
     }
 }
 
@@ -89,6 +106,17 @@ bool ASlashCharacter::CanAttack()
 {
     return ActionState == EActionState::EAS_Unoccpied && CharacterState != ECharacterState::ECS_Unequipped;
 }
+
+bool ASlashCharacter::CanDisarm()
+{
+    return ActionState == EActionState::EAS_Unoccpied && CharacterState != ECharacterState::ECS_Unequipped;
+}
+
+bool ASlashCharacter::CanArm()
+{
+    return ActionState == EActionState::EAS_Unoccpied && CharacterState == ECharacterState::ECS_Unequipped && EquippedWeapon;
+}
+
 
 void ASlashCharacter::Dodge()
 {
@@ -123,13 +151,41 @@ void ASlashCharacter::PlayAttackMontage()
     }
 }
 
-void ASlashCharacter::AttackEnd()
+void ASlashCharacter::PlayEquipMontage(FName SectionName)
+{
+    UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+    if (AnimInstance && EquipMontage)
+    {
+        AnimInstance->Montage_Play(EquipMontage);
+        AnimInstance->Montage_JumpToSection(SectionName, EquipMontage);
+    }
+}
+
+void ASlashCharacter::DisArm()
+{
+    if (EquippedWeapon)
+    {
+        EquippedWeapon->AttachMeshToSocket(GetMesh(), FName("SpineSocket"));
+    }
+}
+
+void ASlashCharacter::Arm()
+{
+    if (EquippedWeapon)
+    {
+        EquippedWeapon->AttachMeshToSocket(GetMesh(), FName("RightHandSocket"));
+    }
+}
+
+void ASlashCharacter::FinishEquipping()
 {
     ActionState = EActionState::EAS_Unoccpied;
 }
 
-
-
+void ASlashCharacter::AttackEnd()
+{
+    ActionState = EActionState::EAS_Unoccpied;
+}
 
 void ASlashCharacter::Tick(float DeltaTime)
 {
