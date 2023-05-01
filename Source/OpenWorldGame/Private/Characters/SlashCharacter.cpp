@@ -44,7 +44,7 @@ void ASlashCharacter::BeginPlay()
 
 void ASlashCharacter::Move(const FInputActionValue& Value)
 {
-    //if (ActionState != EActionState::EAS_Unoccupied) return;
+    if (ActionState == EActionState::EAS_Attacking) return;
 
     const FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -77,12 +77,17 @@ void ASlashCharacter::EKeyPressed()
 
 void ASlashCharacter::Attack()
 {
-    if (ActionState == EActionState::EAS_Unoccpied)
+    if (CanAttack())
     {
         PlayAttackMontage();
         ActionState = EActionState::EAS_Attacking;
     }
     
+}
+
+bool ASlashCharacter::CanAttack()
+{
+    return ActionState == EActionState::EAS_Unoccpied && CharacterState != ECharacterState::ECS_Unequipped;
 }
 
 void ASlashCharacter::Dodge()
@@ -117,6 +122,13 @@ void ASlashCharacter::PlayAttackMontage()
         AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
     }
 }
+
+void ASlashCharacter::AttackEnd()
+{
+    ActionState = EActionState::EAS_Unoccpied;
+}
+
+
 
 
 void ASlashCharacter::Tick(float DeltaTime)
