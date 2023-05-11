@@ -73,6 +73,8 @@ void AEnemy::GetHit(const FVector& ImpactPoint)
     {
         Theta *= -1.f;
     }
+    UKismetSystemLibrary::DrawDebugArrow(this, GetActorLocation(), GetActorLocation() + CrossProduct * 100.f, 5.f, FColor::Blue, 5.f);
+
 
     if (GEngine)
     {
