@@ -67,6 +67,12 @@ void AEnemy::GetHit(const FVector& ImpactPoint)
     const double CosTheta = FVector::DotProduct(Forward, ToHit);
     //Take the inverse cosine (arc-cosine) of cos(theta) to get theta
     double Theta = FMath::Acos(CosTheta);
+    //if CrossProduct points down, Theta should be negative
+    const FVector CrossProduct = FVector::CrossProduct(Forward, ToHit);
+    if (CrossProduct.Z < 0)
+    {
+        Theta *= -1.f;
+    }
 
     if (GEngine)
     {
