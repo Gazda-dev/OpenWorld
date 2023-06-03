@@ -82,7 +82,7 @@ void AWeapon::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 
     // This loop adds actors to the ignore list from another list named IgnoreActos. 
     // IgnoreActos might be a misspelling. It might supposed to be IgnoreActors.
-    for (AActor* Actor : IgnoreActos)  // For each actor in the IgnoreActos list.
+    for (AActor* Actor : IgnoreActors)  // For each actor in the IgnoreActos list.
     {
         ActorsToIgnore.AddUnique(Actor);  // Add the actor to the ignore list if it's not already there.
     }
@@ -117,7 +117,7 @@ void AWeapon::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
             HitInterface->GetHit(BoxHit.ImpactPoint);
         }
         // Adds the hit actor to the IgnoreActos list so that it will be ignored in future traces.
-        IgnoreActos.AddUnique(BoxHit.GetActor());
+        IgnoreActors.AddUnique(BoxHit.GetActor());
     }
 }
 
