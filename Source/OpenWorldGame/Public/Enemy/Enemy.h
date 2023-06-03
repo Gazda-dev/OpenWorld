@@ -19,6 +19,7 @@ class OPENWORLDGAME_API AEnemy : public ACharacter, public IHitInterface
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
     virtual void GetHit(const FVector& ImpactPoint) override;
+    void directionalHitReact(const FVector& ImpactPoint);
 public:
 
 	AEnemy();
